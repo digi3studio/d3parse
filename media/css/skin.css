@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html,
 body {
   font-size: 16px !important; }
@@ -65,6 +66,9 @@ div.br {
   background-color: #0f0f10;
   color: #FFFFFF;
   text-shadow: none; }
+
+*[data-nickname=""]:before {
+  content: '請登入'; }
 
 @media only screen and (max-width: 767px) {
   .ui.ordered.steps.alt {

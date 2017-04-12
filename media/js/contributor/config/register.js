@@ -6,10 +6,10 @@ require.config({
         'jquery':      '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min',
         'hammerjs':    '//ajax.googleapis.com/ajax/libs/hammerjs/2.0.8/hammer.min',
         'd3_carousel':    '../../classes/Carousel',
-        'd3_register': '../../classes/FacebookEmailRegister'
+        'd3_fblogin': '../../classes/FacebookEmailLogin'
     }
 });
-require(['d3_carousel', 'jquery', 'd3_register'], function (Carousel_1, $, Register_1) {
+require(['d3_carousel', 'jquery', 'd3_fblogin'], function (Carousel_1, $, FBLogin) {
 
     window.fbAsyncInit = function() {
         FB.init({
@@ -28,6 +28,6 @@ require(['d3_carousel', 'jquery', 'd3_register'], function (Carousel_1, $, Regis
 
     $('.facebook-email-register').each(function(key, value){
         new Carousel_1.Carousel($(value));
-        new Register_1.FacebookEmailRegister($(value));
+        new FBLogin.FacebookEmailLogin($(value));
     });
 });

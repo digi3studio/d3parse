@@ -109,9 +109,10 @@ class Controller_User extends Controller_Parse{
         $this->output->message = '未有登記';
 
         ParseUser::logOut();
+        $this->current_user->destroy(TRUE);
 
         if($this->output_format!='json'){
-          $this->success_redirect('contributor/invite');
+          $this->success_redirect('user/no_fb_linked');
         }
       }else{
         $this->apply_parse_value(
@@ -150,6 +151,10 @@ class Controller_User extends Controller_Parse{
         )
       );
     }
+  }
+
+  public function action_no_fb_linked(){
+
   }
 
   /* logout */

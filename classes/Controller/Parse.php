@@ -22,11 +22,10 @@ class Controller_Parse extends Controller_Common{
 
   public function before(){
     parent::before();
-    $config = Kohana::$config->load('site')->get('parse');
-    ParseClient::initialize( $config['id'], '', $config['master'] );
-    ParseClient::setServerURL($config['url'], $config['mount']);
 
-    $this->current_user = ParseUser::getCurrentUser();
+    Helper_Parse::initialize();
+    $this->current_user = Helper_Parse::$current_user;
+
     $this->output = (object)[];
     if($this->output_format == 'json'){
         $this->template_body = &$this->output;

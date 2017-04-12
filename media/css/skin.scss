@@ -92,6 +92,10 @@ div.br{
 }
 
 
+*[data-nickname=""]:before{
+  content:'請登入';
+}
+
 @media only screen and (max-width: 767px){
   .ui.ordered.steps.alt {
     width: 100%;

@@ -7,7 +7,6 @@
  */
 
 Helper_Template::instance()->link('css/carousel.css');
-Helper_Template::instance()->link('css/skin.css');
 
 /* emmet
 .facebook-email-register.multi-page-form>.carousel[data-active=1]>ul.box
