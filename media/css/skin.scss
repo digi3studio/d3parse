@@ -1,0 +1,122 @@
+html,
+body{
+  font-size: 16px !important;
+}
+
+div.br{
+  height:0.6em;
+}
+
+.multi-page-form{
+  text-align: center;
+
+  .selection
+  {
+    .ui.button{
+      width: 165px;
+      text-align: left;
+      margin: 0;
+
+      i{
+        margin-right: 0.8em;
+      }
+    }
+
+    .button a{
+      color:inherit;
+    }
+  }
+}
+
+.ui.ordered.steps.alt{
+  margin-top:0;
+  text-align: center;
+
+  .step {
+    width:25%;
+    padding:0 0.5em 1em 0.5em;
+    display:block;
+
+    &:before{
+      margin: 0;
+      line-height: 1.3em;
+    }
+  }
+}
+
+//default black button
+.button a{
+  color:inherit;
+}
+
+.ui.buttons .button,
+.ui.button {
+  background-color: #1B1C1D;
+  color: #FFFFFF;
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.button {
+  box-shadow: 0 0 0 0 rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.buttons .button:hover,
+.ui.button:hover {
+  background-color: #27292a;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.buttons .button:focus,
+.ui.button:focus {
+  background-color: #2f3032;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.buttons .button:active,
+.ui.button:active {
+  background-color: #343637;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.buttons .active.button,
+.ui.buttons .active.button:active,
+.ui.active.button,
+.ui.button .active.button:active {
+  background-color: #0f0f10;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+
+@media only screen and (max-width: 767px){
+  .ui.ordered.steps.alt {
+    width: 100%;
+    flex-direction: row;
+
+    .step {
+      font-size: 0.6rem;
+      width: 25% !important;
+
+      .title,
+      .description {
+        line-height: 1.2em;
+      }
+
+      &:after {
+        display: block !important;
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    .step:last-child {
+      &:after {
+        display: none !important;
+      }
+    }
+  }
+}

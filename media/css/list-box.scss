@@ -1,0 +1,13 @@
+ul.box,
+ol.box{
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  li {
+    display: block;
+    float: left;
+    list-style: none;
+    box-sizing: border-box;
+  }
+}

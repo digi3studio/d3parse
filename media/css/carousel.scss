@@ -1,0 +1,63 @@
+@import "list-box";
+
+.carousel{
+  overflow: hidden;
+
+  ul.box{
+    width:1000%;
+    transition: margin 0.5s;
+
+    > li{
+      width:10%;
+    }
+  }
+
+  ol.page-control{
+    text-align: center;
+    letter-spacing: -0.5em;
+
+    li{
+      display: inline-block;
+      float:none;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+}
+
+.carousel[data-active="1"] > ul{ margin-left: 0;}
+.carousel[data-active="2"] > ul{ margin-left: -100%;}
+.carousel[data-active="3"] > ul{ margin-left: -200%;}
+.carousel[data-active="4"] > ul{ margin-left: -300%;}
+.carousel[data-active="5"] > ul{ margin-left: -400%;}
+.carousel[data-active="6"] > ul{ margin-left: -500%;}
+.carousel[data-active="7"] > ul{ margin-left: -600%;}
+.carousel[data-active="8"] > ul{ margin-left: -700%;}
+.carousel[data-active="9"] > ul{ margin-left: -800%;}
+.carousel[data-active="10"] > ul{ margin-left: -900%;}
+
+.carousel[data-active="1"] .page-control li:nth-child(1),
+.carousel[data-active="2"] .page-control li:nth-child(2),
+.carousel[data-active="3"] .page-control li:nth-child(3),
+.carousel[data-active="4"] .page-control li:nth-child(4),
+.carousel[data-active="5"] .page-control li:nth-child(5),
+.carousel[data-active="6"] .page-control li:nth-child(6),
+.carousel[data-active="7"] .page-control li:nth-child(7),
+.carousel[data-active="8"] .page-control li:nth-child(8),
+.carousel[data-active="9"] .page-control li:nth-child(9),
+.carousel[data-active="10"] .page-control li:nth-child(10){
+  opacity: 1;
+}
+
+//cosmetic
+.carousel{
+  ol.page-control{
+    li{
+      margin: 0 0.2em;
+      width: 1em;
+      height: 1em;
+      background: #FAA61A;
+      border-radius: 0.5em;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "fb": "registry:dt/fb#0.0.0+20161119044246",
+    "hammerjs": "registry:dt/hammerjs#2.0.8+20161224203613",
+    "jquery": "registry:dt/jquery#1.10.0+20161119044246",
+    "semantic-ui": "registry:dt/semantic-ui#2.2.0+20170223151516"
+  },
+  "dependencies": {
+    "react": "registry:dt/react#0.14.0+20161211160957"
+  }
+}
