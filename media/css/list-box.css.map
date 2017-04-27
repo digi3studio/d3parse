@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA;MACM;EACJ,MAAM,EAAE,CAAC;EACT,OAAO,EAAE,CAAC;EACV,QAAQ,EAAE,MAAM;EAEhB;WAAG;IACD,OAAO,EAAE,KAAK;IACd,KAAK,EAAE,IAAI;IACX,UAAU,EAAE,IAAI;IAChB,UAAU,EAAE,UAAU",
-"sources": ["list-box.scss"],
-"names": [],
-"file": "list-box.css"
-}

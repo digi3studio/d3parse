@@ -18,7 +18,7 @@ use Parse\ParseObject;
 use Parse\ParseClient;
 
 class Controller_Parse extends Controller_Common{
-  protected $current_user;
+  protected $current_user = NULL;
 
   public function before(){
     parent::before();
@@ -118,7 +118,23 @@ UnsupportedService	        252	Error code indicating that a service being linked
 
     foreach($keys as $key){
       if(!isset($_POST[$key])){
-        $this->error_redirect(901, array('key'=>$key));
+        $this->error_redirect(901, array('missing_post_key'=>$key));
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  protected function validate_get($keys = null){
+    if(empty($_GET)){
+      $this->error_redirect(900);
+      return FALSE;
+    }
+
+    foreach($keys as $key){
+      if(!isset($_GET[$key])){
+        $this->error_redirect(901, array('missing_get_key'=>$key));
         return FALSE;
       }
     }
@@ -127,6 +143,15 @@ UnsupportedService	        252	Error code indicating that a service being linked
   }
 
   protected function error_redirect($code, $queries = null){
+    if($this->output_format == 'json'){
+      $this->output->status = 'error';
+      $this->output->code   = $code;
+      $this->output->info   = $queries;
+
+      //skip redirect for json
+      return;
+    }
+
     $str = '';
 
     if(!empty($queries)){
@@ -148,6 +173,13 @@ UnsupportedService	        252	Error code indicating that a service being linked
   }
 
   protected function success_redirect($uri){
+    if($this->output_format == 'json'){
+      $this->output->status = 'success';
+      $this->output->destination = $uri;
+      //skip redirect for json
+      return;
+    }
+
     if($this->output_format != 'php'){
       //find query
       $components = explode('?', $uri);
@@ -160,5 +192,29 @@ UnsupportedService	        252	Error code indicating that a service being linked
 
   private function render_error($code){
     $this->template->body = $this->get_view('error/'.$code);
+  }
+
+  protected function unexpected_error(){
+    return $this->error_redirect(99999, array('message'=>'UNEXPECTED_ERROR'));
+  }
+
+
+  protected function test(){
+    echo 'please enable test in Controller/Parse.php';
+/*    $object = ParseObject::create("TestObject");
+
+    try{
+      $object->set("elephant", "php");
+      $object->set("today", new DateTime());
+      $object->setArray("mylist", [1, 2, 3]);
+      $object->setAssociativeArray(
+        "languageTypes", array("php" => "awesome", "ruby" => "wtf")
+      );
+      $object->save(true);
+    }catch (ParseException $ex) {
+      echo 'test fail:'.$ex->getCode();
+    }
+
+    echo 'test success';*/
   }
 }
