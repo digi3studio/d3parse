@@ -11,7 +11,6 @@ use Parse\ParseUser;
 
 class Helper_Parse{
   private static $initialized = FALSE;
-  public static $current_user;
 
   public static function initialize(){
     if(self::$initialized)return;
@@ -19,7 +18,6 @@ class Helper_Parse{
     $config = Kohana::$config->load('site')->get('parse');
     ParseClient::initialize( $config['id'], '', $config['master'] );
     ParseClient::setServerURL($config['url'], $config['mount']);
-    self::$current_user =  ParseUser::getCurrentUser();
 
     self::$initialized = TRUE;
   }

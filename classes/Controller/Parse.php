@@ -18,13 +18,9 @@ use Parse\ParseObject;
 use Parse\ParseClient;
 
 class Controller_Parse extends Controller_Common{
-  protected $current_user = NULL;
-
   public function before(){
     parent::before();
-
     Helper_Parse::initialize();
-    $this->current_user = Helper_Parse::$current_user;
 
     $this->output = (object)[];
     if($this->output_format == 'json'){
@@ -32,12 +28,12 @@ class Controller_Parse extends Controller_Common{
     }
 
     if($this->auto_render === TRUE) {
-      if ($this->current_user) {
+      if (ParseUser::getCurrentUser()) {
         // do stuff with the user
         $this->template->user_login_status = 'member';
         $this->apply_parse_value(
           $this->template->header,
-          $this->current_user,
+          ParseUser::getCurrentUser(),
           array('username', 'nickname')
         );
       } else {
@@ -102,10 +98,13 @@ UnsupportedService	        252	Error code indicating that a service being linked
   }
 
   protected function is_unauthorized(){
-    if($this->current_user){
+    if(ParseUser::getCurrentUser()){
       return FALSE;
     }else{
-      $this->redirect('user/login');
+        if($this->output_format == 'php'){
+            $this->redirect('user/login');
+        }
+
       return TRUE;
     }
   }
