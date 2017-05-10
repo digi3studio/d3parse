@@ -28,12 +28,14 @@ class Controller_Parse extends Controller_Common{
     }
 
     if($this->auto_render === TRUE) {
-      if (ParseUser::getCurrentUser()) {
+      $user = ParseUser::getCurrentUser();
+
+      if ($user) {
         // do stuff with the user
         $this->template->user_login_status = 'member';
         $this->apply_parse_value(
           $this->template->header,
-          ParseUser::getCurrentUser(),
+          $user,
           array('username', 'nickname')
         );
       } else {
