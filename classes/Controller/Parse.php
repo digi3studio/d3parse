@@ -93,10 +93,13 @@ UnsupportedService	        252	Error code indicating that a service being linked
     $this->render_error($_REQUEST['code']);
   }
 
-  protected function apply_parse_value(&$view, &$parse_object, $keys){
+  protected function apply_parse_value(&$view, &$parse_object, $keys, $additional_kv_pairs = NULL){
     foreach($keys as $key){
       $view->$key = $parse_object->get($key);
     }
+
+    if($additional_kv_pairs === NULL)return;
+    $this->apply_values($view, $additional_kv_pairs);
   }
 
   protected function is_unauthorized(){
@@ -144,13 +147,19 @@ UnsupportedService	        252	Error code indicating that a service being linked
   }
 
   protected function error_redirect($code, $queries = null){
-    if($this->output_format == 'json'){
-      $this->output->status = 'error';
-      $this->output->code   = $code;
-      $this->output->info   = $queries;
-
-      //skip redirect for json
-      return;
+    //json and js not redirect.
+    switch ($this->output_format){
+      case 'json':
+      case 'js':
+        $this->apply_values($this->template_body,
+          array(
+            'status' => 'error',
+            'code'   => $code,
+            'info'   => $queries,
+          )
+        );
+        return;
+      default:
     }
 
     $str = '';
@@ -161,31 +170,22 @@ UnsupportedService	        252	Error code indicating that a service being linked
       }
     }
 
-    if($this->output_format == 'json'){
-      $this->output = array(
-        'status'=>'error',
-        'code' => $code,
-        'msg'  => $str
-      );
-      return;
-    }
-
     $this->redirect($this->controller_name.'/error?code='.$code.$str);
   }
 
   protected function success_redirect($uri){
-    if($this->output_format == 'json'){
-      $this->output->status = 'success';
-      $this->output->destination = $uri;
-      //skip redirect for json
-      return;
-    }
-
-    if($this->output_format != 'php'){
-      //find query
-      $components = explode('?', $uri);
-      $components[0] = $components[0] . '.' . $this->output_format;
-      $uri = implode('?', $components);
+    //json and js not redirect.
+    switch ($this->output_format){
+      case 'json':
+      case 'js':
+        $this->apply_values($this->template_body,
+          array(
+            'status' => 'success',
+            'destination'   => $uri,
+          )
+        );
+        return;
+      default:
     }
 
     $this->redirect($uri);
@@ -199,23 +199,23 @@ UnsupportedService	        252	Error code indicating that a service being linked
     return $this->error_redirect(99999, array('message'=>'UNEXPECTED_ERROR'));
   }
 
+  /*
+    protected function test(){
+      echo 'please enable test in Controller/Parse.php';
+      $object = ParseObject::create("TestObject");
 
-  protected function test(){
-    echo 'please enable test in Controller/Parse.php';
-/*    $object = ParseObject::create("TestObject");
+      try{
+        $object->set("elephant", "php");
+        $object->set("today", new DateTime());
+        $object->setArray("mylist", [1, 2, 3]);
+        $object->setAssociativeArray(
+          "languageTypes", array("php" => "awesome", "ruby" => "wtf")
+        );
+        $object->save(true);
+      }catch (ParseException $ex) {
+        echo 'test fail:'.$ex->getCode();
+      }
 
-    try{
-      $object->set("elephant", "php");
-      $object->set("today", new DateTime());
-      $object->setArray("mylist", [1, 2, 3]);
-      $object->setAssociativeArray(
-        "languageTypes", array("php" => "awesome", "ruby" => "wtf")
-      );
-      $object->save(true);
-    }catch (ParseException $ex) {
-      echo 'test fail:'.$ex->getCode();
-    }
-
-    echo 'test success';*/
-  }
+      echo 'test success';
+  }*/
 }
