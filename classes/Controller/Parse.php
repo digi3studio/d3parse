@@ -90,7 +90,8 @@ InvalidLinkedSession	    251	Error code indicating that a user with a linked (e.
 UnsupportedService	        252	Error code indicating that a service being linked (e.g. Facebook or Twitter) is unsupported.
 */
   public function action_error(){
-    $this->render_error($_REQUEST['code']);
+    $code = isset($_REQUEST['code']) ? $_REQUEST['code']:'';
+    $this->template->body = $this->get_view('error/'.$code);
   }
 
   protected function apply_parse_value(&$view, &$parse_object, $keys, $additional_kv_pairs = NULL){
@@ -170,7 +171,8 @@ UnsupportedService	        252	Error code indicating that a service being linked
       }
     }
 
-    $this->redirect($this->controller_name.'/error?code='.$code.$str);
+    $destination = $this->controller_name.'/error?code='.$code.$str;
+    $this->redirect($destination);
   }
 
   protected function success_redirect($uri){
@@ -191,12 +193,47 @@ UnsupportedService	        252	Error code indicating that a service being linked
     $this->redirect($uri);
   }
 
-  private function render_error($code){
-    $this->template->body = $this->get_view('error/'.$code);
-  }
-
   protected function unexpected_error(){
     return $this->error_redirect(99999, array('message'=>'UNEXPECTED_ERROR'));
+  }
+
+  protected function pagination($model, $columns, $page = 0, $items_per_page = 50){
+    $results = [];
+    $page_count = $items_per_page;
+
+    $query = new ParseQuery($model);
+    try {
+      $items = $query
+        ->descending('postDate')
+        ->limit($page_count)
+        ->skip($page_count * $page)
+        ->find(true);
+
+      foreach($items as $item){
+        $result = ['id' => $item->getObjectId()];
+        $sum = '';
+
+        foreach ($columns as $column){
+          $result[$column] = $item->get($column);
+          $sum .= $result[$column];
+        }
+
+        $key = hash('md5', $item->getObjectId() . $sum);
+
+        $results[$key] = $result;
+      }
+
+      $this->apply_values($this->template_body, [
+        'items' => $results,
+      ]);
+
+    } catch (ParseException $ex) {
+      // The object was not retrieved successfully.
+      // error is a ParseException with an error code and message.
+      $this->apply_values($this->template_body, array(
+        'message' => Helper_Filesearch::get_view($this->city, $this->language, 'error/connection_error')
+      ));
+    }
   }
 
   /*
