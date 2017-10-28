@@ -13,12 +13,12 @@ class Helper_Parse{
   private static $initialized = FALSE;
 
   public static function initialize(){
-    if(self::$initialized)return;
+    if(static::$initialized)return;
 
     $config = Kohana::$config->load('site')->get('parse');
     ParseClient::initialize( $config['id'], '', $config['master'] );
     ParseClient::setServerURL($config['url'], $config['mount']);
 
-    self::$initialized = TRUE;
+    static::$initialized = TRUE;
   }
 }
